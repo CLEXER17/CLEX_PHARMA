@@ -1,0 +1,45 @@
+from collections.abc import Awaitable, Callable
+from typing import Any
+
+import httpx
+
+from app.settings import Settings
+
+
+class TelegramClient:
+    def __init__(self, settings: Settings):
+        self.settings = settings
+        self.base_url = f"https://api.telegram.org/bot{settings.telegram_bot_token}"
+
+    async def send_message(
+        self, chat_id: int | str, text: str, reply_markup: dict[str, Any] | None = None
+    ) -> bool:
+        if not self.settings.telegram_bot_token:
+            return False
+        payload: dict[str, Any] = {
+            "chat_id": chat_id,
+            "text": text,
+            "parse_mode": "HTML",
+            "disable_web_page_preview": True,
+        }
+        if reply_markup:
+            payload["reply_markup"] = reply_markup
+        async with httpx.AsyncClient(timeout=20) as client:
+            response = await client.post(f"{self.base_url}/sendMessage", json=payload)
+            return response.is_success
+
+    async def set_webhook(self) -> bool:
+        if not self.settings.telegram_bot_token or not self.settings.public_base_url:
+            return False
+        payload = {
+            "url": f"{self.settings.public_base_url.rstrip('/')}/telegram/webhook",
+            "secret_token": self.settings.telegram_webhook_secret,
+        }
+        async with httpx.AsyncClient(timeout=20) as client:
+            response = await client.post(f"{self.base_url}/setWebhook", json=payload)
+            return response.is_success
+
+    async def answer_update(
+        self, update: dict[str, Any], handler: Callable[[dict[str, Any]], Awaitable[None]]
+    ) -> None:
+        await handler(update)

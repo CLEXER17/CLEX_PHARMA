@@ -1,0 +1,31 @@
+sources:
+  - name: National Career Service
+    url: https://www.ncs.gov.in/
+    type: html
+    trust_level: official_verified
+    official: true
+  - name: AIIMS Recruitment
+    url: https://www.aiimsexams.ac.in/
+    type: html
+    trust_level: official_verified
+    official: true
+  - name: Odisha Public Service Commission
+    url: https://www.opsc.gov.in/
+    type: html
+    trust_level: official_verified
+    official: true
+  - name: Odisha Staff Selection Commission
+    url: https://ossc.gov.in/
+    type: html
+    trust_level: official_verified
+    official: true
+  - name: UPSC
+    url: https://upsc.gov.in/
+    type: html
+    trust_level: official_verified
+    official: true
+  - name: CDSCO
+    url: https://cdsco.gov.in/
+    type: html
+    trust_level: official_verified
+    official: true
