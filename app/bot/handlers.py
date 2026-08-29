@@ -1,4 +1,4 @@
-from sqlalchemy import select
+from sqlalchemy import or_, select
 
 from app.bot.api import TelegramClient
 from app.bot.formatting import opportunity_message
@@ -77,7 +77,17 @@ async def handle_update(update: dict, settings: Settings, telegram: TelegramClie
                 .limit(5)
             )
             if command == "internships":
-                query = query.where(Opportunity.category.ilike("%intern%"))
+                query = query.where(
+                    or_(
+                        Opportunity.category.ilike("%intern%"),
+                        Opportunity.title.ilike("%intern%"),
+                        Opportunity.title.ilike("%training%"),
+                        Opportunity.title.ilike("%trainee%"),
+                        Opportunity.summary.ilike("%intern%"),
+                        Opportunity.summary.ilike("%training%"),
+                        Opportunity.summary.ilike("%trainee%"),
+                    )
+                )
             elif command == "jobs":
                 query = query.where(Opportunity.category.ilike("%job%"))
             elif command in {"govt", "exams", "notices"}:
