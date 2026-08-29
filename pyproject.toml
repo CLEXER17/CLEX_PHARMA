@@ -19,6 +19,7 @@ dependencies = [
   "selectolax==0.3.26",
   "python-dateutil==2.9.0.post0",
   "rapidfuzz==3.11.0",
+  "alembic==1.14.1",
 ]
 
 [project.optional-dependencies]
