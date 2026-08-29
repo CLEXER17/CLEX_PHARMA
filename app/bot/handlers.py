@@ -81,11 +81,12 @@ async def handle_update(update: dict, settings: Settings, telegram: TelegramClie
             elif command == "jobs":
                 query = query.where(Opportunity.category.ilike("%job%"))
             elif command in {"govt", "exams", "notices"}:
-                query = query.where(
-                    Opportunity.category.ilike(
-                        f"%{command[:-1] if command == 'exams' else command}%"
-                    )
-                )
+                category_term = {
+                    "govt": "government",
+                    "exams": "exam",
+                    "notices": "notice",
+                }[command]
+                query = query.where(Opportunity.category.ilike(f"%{category_term}%"))
             elif command == "search" and argument:
                 query = query.where(Opportunity.title.ilike(f"%{argument}%"))
             rows = list(db.scalars(query))
