@@ -50,7 +50,7 @@ async def handle_update(update: dict, settings: Settings, telegram: TelegramClie
             response = (
                 "CLEX Pharma finds verified India-wide B.Pharm opportunities. "
                 "Use /latest, /internships, /jobs, /govt, /exams, "
-                "/search <terms>, /pause, or /resume."
+                "/search &lt;terms&gt;, /pause, or /resume."
             )
         elif command == "pause":
             user.paused = True
