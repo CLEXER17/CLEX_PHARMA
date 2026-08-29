@@ -26,14 +26,28 @@ class RSSAdapter:
                     published = parsedate_to_datetime(entry.published)
                 except (TypeError, ValueError):
                     pass
+            title = entry.get("title", "Untitled opportunity")
+            summary = entry.get("summary", "Not specified / Not verified")
+            searchable = f"{title} {summary}".lower()
             result.append(
                 DiscoveredItem(
                     url=link,
-                    title=entry.get("title", "Untitled opportunity"),
+                    title=title,
                     source_url=url,
-                    summary=entry.get("summary", "Not specified / Not verified"),
+                    category=_category(searchable),
+                    summary=summary,
                     published_at=published,
                     source_trust="discovery_only",
                 )
             )
         return result
+
+
+def _category(text: str) -> str:
+    if any(term in text for term in ("internship", "fellowship", "trainee", "training")):
+        return "internship"
+    if any(term in text for term in ("exam", "admit card", "result")):
+        return "exam"
+    if any(term in text for term in ("recruitment", "vacancy", "job", "career", "pharmacist")):
+        return "government job"
+    return "notice"

@@ -61,5 +61,14 @@ async def test_html_adapter_keeps_actionable_exam_and_excludes_syllabus(monkeypa
     assert items[0].category == "exam"
 
 
+@pytest.mark.asyncio
+async def test_html_adapter_categorizes_training_as_internship(monkeypatch):
+    monkeypatch.setattr("app.ingestion.adapters.html.validate_external_url", lambda url: url)
+    html = '<a href="/pharmacy-summer-training">B.Pharm summer training</a>'
+    adapter = HTMLAdapter(lambda _url: _body(html))
+    items = await adapter.discover("https://example.gov.in/")
+    assert items[0].category == "internship"
+
+
 async def _body(value: str) -> str:
     return value

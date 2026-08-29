@@ -18,6 +18,8 @@ ACTIONABLE_SIGNALS = (
     "job opening",
     "internship",
     "fellowship",
+    "trainee",
+    "training",
     "admit card",
     "exam",
     "examination",
@@ -155,7 +157,7 @@ class HTMLAdapter:
 
     @staticmethod
     def _category(text: str) -> str:
-        if any(term in text for term in ("internship", "fellowship", "trainee")):
+        if any(term in text for term in ("internship", "fellowship", "trainee", "training")):
             return "internship"
         if any(term in text for term in ("exam", "admit card", "result")):
             return "exam"

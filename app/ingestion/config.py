@@ -31,6 +31,8 @@ def load_terms() -> tuple[str, ...]:
         "job opening",
         "internship",
         "fellowship",
+        "trainee",
+        "training",
         "admit card",
         "notification",
         "career opportunity",
