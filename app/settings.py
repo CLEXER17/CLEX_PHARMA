@@ -34,7 +34,19 @@ class Settings(BaseSettings):
 
     @property
     def database_url_sync(self) -> str:
-        return self.database_url.replace("postgresql+asyncpg://", "postgresql+psycopg://")
+        url = self.database_url.strip()
+        if url.startswith("${{"):
+            raise ValueError(
+                "DATABASE_URL is unresolved. In Railway, add the Postgres DATABASE_URL "
+                "using Add Reference instead of typing a literal placeholder."
+            )
+        if url.startswith("postgres://"):
+            url = "postgresql+psycopg://" + url.removeprefix("postgres://")
+        elif url.startswith("postgresql://"):
+            url = "postgresql+psycopg://" + url.removeprefix("postgresql://")
+        else:
+            url = url.replace("postgresql+asyncpg://", "postgresql+psycopg://")
+        return url
 
 
 @lru_cache
