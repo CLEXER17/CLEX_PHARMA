@@ -6,7 +6,10 @@ CLEX Pharma is an all-India B.Pharm career-intelligence Telegram bot. It is desi
 
 The application is a Python service with two runtime roles. The web role is a FastAPI application exposing `/health`, `/health/live`, `/health/ready`, and `/telegram/webhook`. The worker role runs the scheduled ingestion process. PostgreSQL is the production persistence layer; SQLite is supported for local development. Source adapters return normalized discovery records, and pure scoring, expiry, fingerprint, extraction, and security functions keep core behavior testable without Telegram or live websites.
 
-The initial adapters support RSS-style discovery and the adapter protocol is intentionally open for permitted JSON APIs, sitemaps, configured HTML pages, and approved search providers. Public social sources must be integrated only through legitimate APIs or permitted public/indexed access. CAPTCHA, Cloudflare, login walls, robots restrictions, and anti-bot challenges are recorded as blocked source events; the bot never attempts to bypass them.
+The initial adapters support RSS-style discovery and configured public HTML pages. Public social sources must be integrated only through legitimate APIs or permitted public/indexed access. CAPTCHA, Cloudflare, login walls, robots restrictions, and anti-bot challenges are recorded as blocked source events; the bot never attempts to bypass them. JavaScript-only pages may produce no discoveries because the worker does not execute browser scripts.
+
+The worker runs an ingestion cycle immediately on startup and then every `CRAWL_INTERVAL_SECONDS` (default two hours). Each cycle seeds the configured sources, filters relevant same-host links, and persists scored, non-expired opportunities. A failed source is isolated and recorded in `source_runs`; repeated cycles refresh records instead of creating duplicates.
+
 
 ## Local setup
 
