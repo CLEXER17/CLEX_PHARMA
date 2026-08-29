@@ -19,4 +19,26 @@ def load_sources() -> list[dict[str, Any]]:
 def load_terms() -> tuple[str, ...]:
     keywords = load_yaml("default_keywords.yaml")
     roles = keywords.get("roles", [])
-    return tuple(str(role) for role in roles if str(role).strip())
+    generic = (
+        "job",
+        "jobs",
+        "career",
+        "recruitment",
+        "vacancy",
+        "vacancies",
+        "notification",
+        "notifications",
+        "notice",
+        "notices",
+        "exam",
+        "examination",
+        "admit card",
+        "result",
+        "internship",
+        "fellowship",
+        "pharmacist",
+        "pharmacy",
+    )
+    return tuple(dict.fromkeys(
+        [str(role).strip() for role in roles if str(role).strip()] + list(generic)
+    ))

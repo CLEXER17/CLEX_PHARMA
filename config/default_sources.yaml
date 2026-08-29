@@ -1,6 +1,6 @@
 sources:
-  - name: National Career Service
-    url: https://www.ncs.gov.in/
+  - name: National Career Service Government Jobs
+    url: https://www.ncs.gov.in/job-listing?isGovernmentJob=true
     type: html
     trust_level: official_verified
     official: true
@@ -9,23 +9,23 @@ sources:
     type: html
     trust_level: official_verified
     official: true
-  - name: Odisha Public Service Commission
-    url: https://www.opsc.gov.in/
+  - name: Odisha Public Service Commission Recruitment
+    url: https://www.opsc.gov.in/Public/OPSC/Default.aspx
     type: html
     trust_level: official_verified
     official: true
-  - name: Odisha Staff Selection Commission
-    url: https://ossc.gov.in/
+  - name: Odisha Staff Selection Commission Recruitment
+    url: https://ossc.gov.in/Public/OSSC/Default.aspx
     type: html
     trust_level: official_verified
     official: true
-  - name: UPSC
+  - name: UPSC Recruitment and Examinations
     url: https://upsc.gov.in/
     type: html
     trust_level: official_verified
     official: true
-  - name: CDSCO
-    url: https://cdsco.gov.in/
+  - name: CDSCO Vacancies
+    url: https://cdsco.gov.in/opencms/opencms/en/Notifications/Vacancy/
     type: html
     trust_level: official_verified
     official: true

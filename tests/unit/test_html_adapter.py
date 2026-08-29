@@ -25,7 +25,15 @@ async def test_html_adapter_discovers_relevant_same_host_links(monkeypatch):
 
 
 @pytest.mark.asyncio
-async def test_html_adapter_filters_irrelevant_links(monkeypatch):
+async def test_html_adapter_matches_relevant_path_when_anchor_is_generic(monkeypatch):
+    monkeypatch.setattr("app.ingestion.adapters.html.validate_external_url", lambda url: url)
+    html = '<a href="/notifications/recruitment/2026">View details</a>'
+    adapter = HTMLAdapter(lambda _url: _body(html), terms=("recruitment",))
+    items = await adapter.discover("https://example.gov.in/")
+    assert [item.url for item in items] == [
+        "https://example.gov.in/notifications/recruitment/2026"
+    ]
+
     monkeypatch.setattr("app.ingestion.adapters.html.validate_external_url", lambda url: url)
     adapter = HTMLAdapter(lambda _url: _body('<a href="/about">About the organization</a>'))
     assert await adapter.discover("https://example.gov.in/") == []

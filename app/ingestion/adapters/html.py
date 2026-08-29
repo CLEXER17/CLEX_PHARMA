@@ -63,7 +63,7 @@ class HTMLAdapter:
                 if parent and parent.tag not in {"body", "html"}
                 else text
             )
-            searchable = f"{text} {nearby}".lower()
+            searchable = f"{text} {nearby} {urlsplit(link).path}".lower()
             if not text or not any(term in searchable for term in self.terms):
                 continue
             seen.add(link)
